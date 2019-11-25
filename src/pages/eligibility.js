@@ -1,6 +1,8 @@
 import React from 'react'
 import Layout from '../components/Layout'
 import { checkFlags } from '../Helpers'
+import { navigate } from '@reach/router'
+
 function Question(text, order) {
   // https://stackoverflow.com/questions/8012002/create-a-unique-number-with-javascript-time
   this.id = new Date().valueOf().toString(36) + Math.random().toString(36).substr(2)
@@ -170,6 +172,12 @@ class Eligibility extends React.Component {
     if (response.value.variableText) setActiveFromFlags(response.flowResult)
 
     response.value.active = true
+    navigate('?foo=bar&baz=yes')
+    // console.log('this.props.location', this.props.location)
+    const search = this.props.location.search.substring(1);
+    const query = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}')
+    // console.log('query', query)
+    // navigate()
     this.setState({ questions: q })
   }
   render() {
